@@ -39,7 +39,6 @@ def message_display(text):
     pygame.display.update()
 
     time.sleep(2)
-
     game_loop()
 
 def crash():
@@ -50,7 +49,11 @@ def game_loop():
     y = (display_height * 0.750)
     x_change = 0
     car_speed = 0
-    thing_starx = random.randrange(0, display_width)
+    thing_startx = random.randrange(0, display_width)
+    thing_starty = -600
+    thing_speed = 7
+    thing_width = 100
+    thing_height = 100
 
     gameExit = False
 
@@ -69,8 +72,6 @@ def game_loop():
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     x_change = 0
 
-
-
             # How to just set a boundary though? 
             
             if x > display_width - car_width or x < 0:
@@ -79,9 +80,17 @@ def game_loop():
                 gameExit = True
 
         x += x_change 
-
         gameDisplay.fill(white)
+
+        # things(thingx, thingy, thingw, thingh, color):
+        things(thing_startx, thing_starty, thing_width, thing_height, black)
+        thing_starty += thing_speed
         car(x,y)
+
+        if thing_starty > display_height:
+            thing_starty = 0 - thing_height
+            thing_startx = random.randrange(0, display_width)
+            
 
         pygame.display.update()
         clock.tick(60)
